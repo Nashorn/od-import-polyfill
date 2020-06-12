@@ -1,0 +1,11 @@
+{
+    "name": "od-import-polyfill",
+    "version": "1.0.0",
+    "description": "",
+    "main": "import.js",
+    "author": "",
+    "license": "MIT",
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {}
+  }
