@@ -1,6 +1,7 @@
 (()=> {
   var modulemap = window.modulemap ={};
-  window.require = async function importModule(url) {
+  window.require = window.require||async function importModule(url) {
+    url = Config.ROOTPATH+url;
     var absURL = toAbsoluteURL(url);
     var mod=modulemap[absURL];
     return new Promise(async (resolve, reject) => {
