@@ -4,8 +4,9 @@
     url = Config.ROOTPATH+url;
     var absURL = toAbsoluteURL(url);
     var mod=modulemap[absURL];
+    if (mod) { return mod};
     return new Promise(async (resolve, reject) => {
-      if (mod) { return resolve(mod)};
+      if (mod) { resolve(mod)};
       var s1 = document.createElement("script");
           s1.type = "module";
           s1.onerror = () => reject(new Error(`404: ${url}`));
