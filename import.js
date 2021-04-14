@@ -1,7 +1,7 @@
 (()=> {
   var modulemap = window.modulemap ={};
   window.require = window.require||async function importModule(url) {
-    url = Config.ROOTPATH+url;
+    url = (window.importmap[url]||url).replace(/^\/+/, Config.ROOTPATH);
     var absURL = toAbsoluteURL(url);
     var mod=modulemap[absURL];
     if (mod) { return mod};
@@ -9,9 +9,9 @@
       if (mod) { resolve(mod)};
       var s1 = document.createElement("script");
           s1.type = "module";
-          s1.onerror = () => reject(new Error(`404: ${url}`));
+          s1.onerror = () => reject(new Error(`404: ${absURL}`));
           s1.onload  = () => {
-            resolve(modulemap[absURL]);URL.revokeObjectURL(s1.src);s1.remove();
+            resolve(modulemap[absURL]); URL.revokeObjectURL(s1.src); s1.remove();
           };
       const loader = `import * as m from "${absURL}"; modulemap['${absURL}'] = m;`;
       const blob = new Blob([loader], { type: "text/javascript" });
@@ -19,7 +19,4 @@
       document.head.appendChild(s1);
     });
   };
-  function supportsDynamicImport() {
-    try { new Function('import("")'); return true;} catch (err) {return false;}
-  }
 })();
