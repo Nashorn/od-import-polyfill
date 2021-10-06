@@ -1,6 +1,6 @@
 (()=> {
   var modulemap = window.modulemap ={};
-  window.load = async function importModule(url) {
+  async function importModule(url) {
     url = (window.importmap[url]||url).replace(/^\/+/, Config.ROOTPATH);
     var absURL = toAbsoluteURL(url);
     var mod=modulemap[absURL];
@@ -19,4 +19,9 @@
       document.head.appendChild(s1);
     });
   };
+
+  window.load = importModule;
+  if(typeof require == "undefined"){
+    window.require = importModule;
+  }
 })();
